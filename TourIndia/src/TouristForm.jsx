@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import countries from './assets/countries';
 import typesOfVisit from './assets/TypeOfVisit';
-import cityList from './assets/cities'; 
+import cityList from './assets/cities';
 import accommodationList from './assets/accommodation';
 
 import Button from '@mui/material/Button';
@@ -25,8 +25,11 @@ const TouristForm = () => {
   const [specialCare, setSpecialCare] = useState({
     childCare: false,
     healthCare: false,
+    entertainment: false,
   });
   const [sightseeing, setSightseeing] = useState(false);
+  const [healthCareDemands, setHealthCareDemands] = useState('');
+  const [showHealthCareDemands, setShowHealthCareDemands] = useState(false);
 
   const handleNationalityChange = (event) => {
     setNationality(event.target.value);
@@ -56,6 +59,20 @@ const TouristForm = () => {
     setNumChildren(event.target.value);
   };
 
+  const handleHealthCareChange = (event) => {
+    const isChecked = event.target.checked;
+    setSpecialCare({
+      ...specialCare,
+      healthCare: isChecked,
+    });
+
+    setShowHealthCareDemands(isChecked); // Show the input box if checked
+  };
+
+  const handleHealthCareDemandsChange = (event) => {
+    setHealthCareDemands(event.target.value);
+  };
+
   const handleSpecialCareChange = (event) => {
     setSpecialCare({
       ...specialCare,
@@ -80,6 +97,7 @@ const TouristForm = () => {
       numChildren,
       specialCare,
       sightseeing,
+      healthCareDemands,
     });
   };
 
@@ -156,18 +174,6 @@ const TouristForm = () => {
           </FormControl>
         </div>
         <br />
-        <FormControl fullWidth>
-          <TextField
-            label="Budget"
-            type="number"
-            value={budget}
-            onChange={handleBudgetChange}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </FormControl>
-        <br />
         <FormControlLabel
           control={
             <Checkbox
@@ -182,11 +188,34 @@ const TouristForm = () => {
           control={
             <Checkbox
               checked={specialCare.healthCare}
-              onChange={handleSpecialCareChange}
+              onChange={handleHealthCareChange}
               name="healthCare"
             />
           }
           label="Health Care"
+        />
+        {showHealthCareDemands && (
+          <FormControl fullWidth>
+            <TextField
+              label="Specific Health Care Demands"
+              value={healthCareDemands}
+              onChange={handleHealthCareDemandsChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </FormControl>
+        )}
+        <br />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={specialCare.entertainment}
+              onChange={handleSpecialCareChange}
+              name="entertainment"
+            />
+          }
+          label="Entertainment and Night life"
         />
         <br />
         <FormControlLabel
