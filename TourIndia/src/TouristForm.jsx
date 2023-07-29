@@ -1,23 +1,24 @@
-import React, { useState } from "react";
-import countries from "./assets/countries";
-import typesOfVisit from "./assets/TypeOfVisit";
-import destinations from "./assets/destinations";
-import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import React, { useState } from 'react';
+import countries from './assets/countries';
+import typesOfVisit from './assets/TypeOfVisit';
+import cityList from './assets/cities'; // Renamed the imported city array to cityList
+
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 const TouristForm = () => {
-  const [nationality, setNationality] = useState("");
-  const [typeOfVisit, setTypeOfVisit] = useState("");
-  const [cities, setCities] = useState([]);
-  const [accommodation, setAccommodation] = useState("");
-  const [budget, setBudget] = useState("");
+  const [nationality, setNationality] = useState('');
+  const [typeOfVisit, setTypeOfVisit] = useState('');
+  const [selectedCities, setSelectedCities] = useState([]); // Renamed the state variable to selectedCities
+  const [accommodation, setAccommodation] = useState('');
+  const [budget, setBudget] = useState('');
   const [specialCare, setSpecialCare] = useState({
     childCare: false,
     healthCare: false,
@@ -33,7 +34,7 @@ const TouristForm = () => {
   };
 
   const handleCitiesChange = (event) => {
-    setCities(event.target.value);
+    setSelectedCities(event.target.value);
   };
 
   const handleAccommodationChange = (event) => {
@@ -61,7 +62,7 @@ const TouristForm = () => {
     console.log({
       nationality,
       typeOfVisit,
-      cities,
+      selectedCities, // Changed to use the selectedCities state variable
       accommodation,
       budget,
       specialCare,
@@ -70,7 +71,7 @@ const TouristForm = () => {
   };
 
   return (
-    <Card variant="outlined" style={{ padding: "20px" }}>
+    <Card variant="outlined" style={{ padding: '20px' }}>
       <form>
         <FormControl fullWidth>
           <InputLabel>Nationality</InputLabel>
@@ -97,10 +98,10 @@ const TouristForm = () => {
         <br /> <br />
         <FormControl fullWidth>
           <InputLabel>City/Cities you are visiting</InputLabel>
-          <Select value={destination} onChange={handleDestinationChange}>
-            {destinations.map((destination) => (
-              <MenuItem key={destination} value={destination}>
-                {destination}
+          <Select value={selectedCities} onChange={handleCitiesChange} multiple>
+            {cityList.map((city) => (
+              <MenuItem key={city} value={city}>
+                {city}
               </MenuItem>
             ))}
           </Select>
