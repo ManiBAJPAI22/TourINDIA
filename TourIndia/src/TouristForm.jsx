@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import countries from './assets/countries';
 import typesOfVisit from './assets/TypeOfVisit';
-import cityList from './assets/cities'; // Renamed the imported city array to cityList
+import cityList from './assets/cities'; 
+import accommodationList from './assets/accommodation';
 
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -16,9 +17,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 const TouristForm = () => {
   const [nationality, setNationality] = useState('');
   const [typeOfVisit, setTypeOfVisit] = useState('');
-  const [selectedCities, setSelectedCities] = useState([]); // Renamed the state variable to selectedCities
+  const [selectedCities, setSelectedCities] = useState([]);
   const [accommodation, setAccommodation] = useState('');
   const [budget, setBudget] = useState('');
+  const [numAdults, setNumAdults] = useState('');
+  const [numChildren, setNumChildren] = useState('');
   const [specialCare, setSpecialCare] = useState({
     childCare: false,
     healthCare: false,
@@ -45,6 +48,14 @@ const TouristForm = () => {
     setBudget(event.target.value);
   };
 
+  const handleNumAdultsChange = (event) => {
+    setNumAdults(event.target.value);
+  };
+
+  const handleNumChildrenChange = (event) => {
+    setNumChildren(event.target.value);
+  };
+
   const handleSpecialCareChange = (event) => {
     setSpecialCare({
       ...specialCare,
@@ -62,9 +73,11 @@ const TouristForm = () => {
     console.log({
       nationality,
       typeOfVisit,
-      selectedCities, // Changed to use the selectedCities state variable
+      selectedCities,
       accommodation,
       budget,
+      numAdults,
+      numChildren,
       specialCare,
       sightseeing,
     });
@@ -106,13 +119,42 @@ const TouristForm = () => {
             ))}
           </Select>
         </FormControl>
-        <br />
+        <br /> <br />
         <FormControl fullWidth>
           <InputLabel>Accommodation Preferences</InputLabel>
           <Select value={accommodation} onChange={handleAccommodationChange}>
-            {/* Render the list of accommodation preferences here */}
+            {accommodationList.map((accommodation) => (
+              <MenuItem key={accommodation} value={accommodation}>
+                {accommodation}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
+        <br /> <br />
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <FormControl fullWidth>
+            <TextField
+              label="Number of Adults"
+              type="number"
+              value={numAdults}
+              onChange={handleNumAdultsChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </FormControl>
+          <FormControl fullWidth>
+            <TextField
+              label="Number of Children"
+              type="number"
+              value={numChildren}
+              onChange={handleNumChildrenChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </FormControl>
+        </div>
         <br />
         <FormControl fullWidth>
           <TextField
