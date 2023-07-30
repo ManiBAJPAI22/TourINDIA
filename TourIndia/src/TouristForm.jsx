@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import SosButton from "./assets/SOS";
 import countries from "./assets/countries";
 import typesOfVisit from "./assets/TypeOfVisit";
 import cityList from "./assets/cities";
 import accommodationList from "./assets/accommodation";
-
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
@@ -46,10 +46,6 @@ const TouristForm = () => {
 
   const handleAccommodationChange = (event) => {
     setAccommodation(event.target.value);
-  };
-
-  const handleBudgetChange = (event) => {
-    setBudget(event.target.value);
   };
 
   const handleNumAdultsChange = (event) => {
@@ -100,6 +96,21 @@ const TouristForm = () => {
       sightseeing,
       healthCareDemands,
     });
+  };
+
+  const handleSosButtonClick = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        // Perform nearby search for police stations and hospitals using Google Maps Places API
+        // Display markers on the map for the search results
+        // You can use the 'google-maps-react' library's Marker component to add markers on the map
+        console.log("Current Latitude:", latitude);
+        console.log("Current Longitude:", longitude);
+      });
+    } else {
+      console.log("Geolocation is not available in this browser.");
+    }
   };
 
   return (
@@ -219,7 +230,6 @@ const TouristForm = () => {
           label="Entertainment and Night life"
         />
         <br />
-        
         <FormControlLabel
           control={
             <Checkbox
@@ -229,7 +239,8 @@ const TouristForm = () => {
           }
           label="Sightseeing and Activities"
         />
-        <br /><br/>
+        <br />
+        <br />
         <FormControl fullWidth>
           <TextField
             label="Anything else you wish to tell us"
@@ -249,6 +260,9 @@ const TouristForm = () => {
         >
           Generate Report
         </Button>
+        <br /> <br />
+        <SosButton onClick={handleSosButtonClick} />
+        <br />
       </form>
     </Card>
   );
