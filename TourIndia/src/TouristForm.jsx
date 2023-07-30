@@ -1,35 +1,36 @@
-import React, { useState } from 'react';
-import countries from './assets/countries';
-import typesOfVisit from './assets/TypeOfVisit';
-import cityList from './assets/cities';
-import accommodationList from './assets/accommodation';
+import React, { useState } from "react";
+import countries from "./assets/countries";
+import typesOfVisit from "./assets/TypeOfVisit";
+import cityList from "./assets/cities";
+import accommodationList from "./assets/accommodation";
 
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import TextField from "@mui/material/TextField";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const TouristForm = () => {
-  const [nationality, setNationality] = useState('');
-  const [typeOfVisit, setTypeOfVisit] = useState('');
+  const [nationality, setNationality] = useState("");
+  const [typeOfVisit, setTypeOfVisit] = useState("");
   const [selectedCities, setSelectedCities] = useState([]);
-  const [accommodation, setAccommodation] = useState('');
-  const [budget, setBudget] = useState('');
-  const [numAdults, setNumAdults] = useState('');
-  const [numChildren, setNumChildren] = useState('');
+  const [accommodation, setAccommodation] = useState("");
+  const [budget, setBudget] = useState("");
+  const [numAdults, setNumAdults] = useState("");
+  const [numChildren, setNumChildren] = useState("");
   const [specialCare, setSpecialCare] = useState({
     childCare: false,
     healthCare: false,
     entertainment: false,
   });
   const [sightseeing, setSightseeing] = useState(false);
-  const [healthCareDemands, setHealthCareDemands] = useState('');
+  const [healthCareDemands, setHealthCareDemands] = useState("");
   const [showHealthCareDemands, setShowHealthCareDemands] = useState(false);
+  const [additionalInfo, setAdditionalInfo] = useState("");
 
   const handleNationalityChange = (event) => {
     setNationality(event.target.value);
@@ -102,7 +103,7 @@ const TouristForm = () => {
   };
 
   return (
-    <Card variant="outlined" style={{ padding: '20px' }}>
+    <Card variant="outlined" style={{ padding: "20px" }}>
       <form>
         <FormControl fullWidth>
           <InputLabel>Nationality</InputLabel>
@@ -149,7 +150,7 @@ const TouristForm = () => {
           </Select>
         </FormControl>
         <br /> <br />
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
           <FormControl fullWidth>
             <TextField
               label="Number of Adults"
@@ -218,6 +219,7 @@ const TouristForm = () => {
           label="Entertainment and Night life"
         />
         <br />
+        
         <FormControlLabel
           control={
             <Checkbox
@@ -227,6 +229,18 @@ const TouristForm = () => {
           }
           label="Sightseeing and Activities"
         />
+        <br /><br/>
+        <FormControl fullWidth>
+          <TextField
+            label="Anything else you wish to tell us"
+            value={additionalInfo}
+            onChange={(event) => setAdditionalInfo(event.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </FormControl>
+        <br />
         <br />
         <Button
           variant="contained"
