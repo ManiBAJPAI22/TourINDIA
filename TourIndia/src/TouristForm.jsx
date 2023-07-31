@@ -1,5 +1,5 @@
 import React, { useState } from "react";
- //import { PDFDownloadLink } from "@react-pdf/renderer";
+//import { PDFDownloadLink } from "@react-pdf/renderer";
 // import ReportPDF from "./assets/PDFreport";
 import SosButton from "./assets/SOS";
 import countries from "./assets/countries";
@@ -65,7 +65,7 @@ const TouristForm = () => {
       healthCare: isChecked,
     });
 
-    setShowHealthCareDemands(isChecked); // Show the input box if checked
+    setShowHealthCareDemands(isChecked);
   };
 
   const handleHealthCareDemandsChange = (event) => {
@@ -84,7 +84,6 @@ const TouristForm = () => {
   };
 
   const handleGenerateReport = () => {
-    // Get the form data as an object
     const formData = {
       nationality,
       typeOfVisit,
@@ -98,6 +97,21 @@ const TouristForm = () => {
       healthCareDemands,
       additionalInfo,
     };
+    fetch('http://localhost:3000/api/storeReport', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // Show the response from the server (optional)
+        setGeneratedReportVisible(true); // Show the generated report
+      })
+      .catch((error) => {
+        console.error('Error storing report data:', error);
+      });
 
     // Convert the form data object to a JSON string
     const formDataString = JSON.stringify(formData, null, 2);
@@ -115,8 +129,9 @@ const TouristForm = () => {
     setTimeout(() => URL.revokeObjectURL(url), 100);
     setGeneratedReportVisible(true);
   };
+
   const handleHideGeneratedReport = () => {
-    setGeneratedReportVisible(false); // Hide the generated report
+    setGeneratedReportVisible(false);
   };
   const handleSosButtonClick = () => {
     if (navigator.geolocation) {
@@ -124,7 +139,7 @@ const TouristForm = () => {
         const { latitude, longitude } = position.coords;
         // Perform nearby search for police stations and hospitals using Google Maps Places API
         // Display markers on the map for the search results
-        // You can use the 'google-maps-react' library's Marker component to add markers on the map
+
         console.log("Current Latitude:", latitude);
         console.log("Current Longitude:", longitude);
       });
@@ -284,23 +299,26 @@ const TouristForm = () => {
       <br /> <br />
       <SosButton onClick={handleSosButtonClick} />
       <br />
-      {generatedReportVisible && (
+      {/* {generatedReportVisible && (
         <PDFDownloadLink
           document={<ReportPDF formData={formData} />}
           fileName="tourist_report.pdf"
         >
-          {({ loading }) => (loading ? "Loading document..." : <Button>"Download now!"</Button>)}
+          {({ loading }) =>
+            loading ? "Loading document..." : <Button>"Download now!"</Button>
+          }
         </PDFDownloadLink>
       )}
       {generatedReportVisible && (
         <Button
+
           variant="contained"
           color="secondary"
           onClick={handleHideGeneratedReport}
         >
           Close Report
         </Button>
-      )}
+      )} */}
     </Card>
   );
 };

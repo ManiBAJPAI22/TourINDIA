@@ -1,0 +1,22 @@
+[
+  {
+    "nationality": "Cook Islands",
+    "typeOfVisit": "Education",
+    "selectedCities": [
+      "Kochi (Cochin)",
+      "Udaipur"
+    ],
+    "accommodation": "Homestays",
+    "budget": "",
+    "numAdults": "2",
+    "numChildren": "0",
+    "specialCare": {
+      "childCare": false,
+      "healthCare": false,
+      "entertainment": false
+    },
+    "sightseeing": false,
+    "healthCareDemands": "",
+    "additionalInfo": ""
+  }
+]
