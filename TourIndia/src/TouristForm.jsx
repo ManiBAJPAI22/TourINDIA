@@ -82,9 +82,8 @@ const TouristForm = () => {
   };
 
   const handleGenerateReport = () => {
-    // You can handle the form submission or report generation here
-    // For now, we will just log the form data
-    console.log({
+    // Get the form data as an object
+    const formData = {
       nationality,
       typeOfVisit,
       selectedCities,
@@ -95,9 +94,23 @@ const TouristForm = () => {
       specialCare,
       sightseeing,
       healthCareDemands,
-    });
-  };
+      additionalInfo,
+    };
+ // Convert the form data object to a JSON string
+ const formDataString = JSON.stringify(formData, null, 2);
 
+ // Create a Blob with the form data
+ const blob = new Blob([formDataString], { type: "application/json" });
+
+ // Create a URL for the Blob
+ const url = URL.createObjectURL(blob);
+
+ // Open a new tab window to download the file
+ const newTab = window.open(url, "_blank");
+
+ // Release the URL object after the tab is opened
+ setTimeout(() => URL.revokeObjectURL(url), 100);
+};
   const handleSosButtonClick = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -112,6 +125,9 @@ const TouristForm = () => {
       console.log("Geolocation is not available in this browser.");
     }
   };
+
+ 
+   
 
   return (
     <Card variant="outlined" style={{ padding: "20px" }}>
@@ -225,48 +241,47 @@ const TouristForm = () => {
               checked={specialCare.entertainment}
               onChange={handleSpecialCareChange}
               name="entertainment"
-           />
-            }
-            label="Entertainment and Night life"
-          />
-          <br />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={sightseeing}
-                onChange={handleSightseeingChange}
-              />
-            }
-            label="Sightseeing and Activities"
-          />
-          <br />
-          <br />
-          <FormControl fullWidth>
-            <TextField
-              label="Anything else you wish to tell us"
-              value={additionalInfo}
-              onChange={(event) => setAdditionalInfo(event.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
             />
-          </FormControl>
-          <br />
-          <br />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleGenerateReport}
-          >
-            Generate Report
-          </Button>
-          <br /> <br />
-          <SosButton onClick={handleSosButtonClick} />
-          <br />
-        </form>
-      </Card>
-    );
-  };
-  
-  export default TouristForm;
-  
+          }
+          label="Entertainment and Night life"
+        />
+        <br />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={sightseeing}
+              onChange={handleSightseeingChange}
+            />
+          }
+          label="Sightseeing and Activities"
+        />
+        <br />
+        <br />
+        <FormControl fullWidth>
+          <TextField
+            label="Anything else you wish to tell us"
+            value={additionalInfo}
+            onChange={(event) => setAdditionalInfo(event.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </FormControl>
+        <br />
+        <br />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleGenerateReport}
+        >
+          Generate Report
+        </Button>
+        <br /> <br />
+        <SosButton onClick={handleSosButtonClick} />
+        <br />
+      </form>
+    </Card>
+  );
+};
+
+export default TouristForm;
