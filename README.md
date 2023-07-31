@@ -2,10 +2,6 @@
 
 Of course! I'd be happy to help you with writing a README file for your project. A README is an essential component of any software project as it provides important information about the project, its purpose, how to use it, and other relevant details. Here's a template for your project's README file:
 
-# Tourism India Project
-
-![Project Image](url-to-project-image) <!-- If you have an image, you can add it here -->
-
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -17,15 +13,14 @@ Of course! I'd be happy to help you with writing a README file for your project.
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [Contributing](#contributing)
-- [License](#license)
 - [Contact](#contact)
-- [Announcement](#accouncement)
+- [Announcement](#announcement)
 
 ## Introduction
 
 The Tourism India project is a web application that helps tourists plan their trips to India. The application allows users to provide their preferences, such as nationality, type of visit, accommodation preferences, sightseeing activities, and more. Based on these inputs, the application generates a custom travel report for the user, providing them with personalized recommendations and useful information for their trip.
 
-# Still in Development
+## Still in Development
 
 Safety features are also incorporated within, such as SOS, which notifies nearby police stations and provides the location of nearby hospitals in case of emergencies. With the rising cases of harassment, I believe this could be an important feature to add.
 
@@ -56,7 +51,7 @@ Safety features are also incorporated within, such as SOS, which notifies nearby
 Before running the project, you need to have the following installed on your machine:
 
 - Node.js (https://nodejs.org) - Make sure to install the LTS version.
-- vite.js (https://vitejs.dev/) - Make sure to instal by npm install vite@latest.
+- vite.js (https://vitejs.dev/) - Make sure to install using npm install vite@latest.
 
 ### Installation
 
@@ -69,11 +64,10 @@ Before running the project, you need to have the following installed on your mac
 2. Install the required dependencies for both frontend and backend:
 
    ```bash
-   cd TourismIndia
-   cd frontend
+   cd TourismIndia/TourIndia
    npm install
 
-   cd ../backend
+   cd ../tourism-app
    npm install
    ```
 
@@ -95,9 +89,8 @@ Before running the project, you need to have the following installed on your mac
    npm run dev
    ```
 
-   The frontend development server will be running on ` http://localhost:5173/`.
+   The frontend development server will be running on `http://localhost:5173/`.
 
-3. Access the web application by visiting `http://localhost:3001` in your web browser.
 
 ## API Endpoints
 
@@ -114,10 +107,6 @@ I welcome contributions to improve the Tourism India project. To contribute, fol
 3. Commit your changes and push the branch to your fork.
 4. Submit a pull request to the original repository.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
 ## Contact
 
 If you have any questions or suggestions regarding the Tourism India project, feel free to contact us:
@@ -128,10 +117,10 @@ If you have any questions or suggestions regarding the Tourism India project, fe
 
 ## Announcement 
 This project is still in development phase. 
-I will make sure to keep you all here updated here.
-Issues still facing : 
-1. Not able to use react-pdf render.
-2. Not able to use Axios 
-Help is Appreciated !!
+I will make sure to keep you all updated here.
+Issues still facing: 
+1. Not able to use react-pdf renderer.
+2. Not able to use Axios.
+Help is Appreciated!!
 
 Thank You 🌞
