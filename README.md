@@ -1,7 +1,5 @@
 # TourINDIA
 
-Of course! I'd be happy to help you with writing a README file for your project. A README is an essential component of any software project as it provides important information about the project, its purpose, how to use it, and other relevant details. Here's a template for your project's README file:
-
 ## Table of Contents
 
 - [Introduction](#introduction)
