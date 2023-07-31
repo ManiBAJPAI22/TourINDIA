@@ -225,47 +225,48 @@ const TouristForm = () => {
               checked={specialCare.entertainment}
               onChange={handleSpecialCareChange}
               name="entertainment"
-            />
-          }
-          label="Entertainment and Night life"
-        />
-        <br />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={sightseeing}
-              onChange={handleSightseeingChange}
-            />
-          }
-          label="Sightseeing and Activities"
-        />
-        <br />
-        <br />
-        <FormControl fullWidth>
-          <TextField
-            label="Anything else you wish to tell us"
-            value={additionalInfo}
-            onChange={(event) => setAdditionalInfo(event.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
+           />
+            }
+            label="Entertainment and Night life"
           />
-        </FormControl>
-        <br />
-        <br />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleGenerateReport}
-        >
-          Generate Report
-        </Button>
-        <br /> <br />
-        <SosButton onClick={handleSosButtonClick} />
-        <br />
-      </form>
-    </Card>
-  );
-};
-
-export default TouristForm;
+          <br />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={sightseeing}
+                onChange={handleSightseeingChange}
+              />
+            }
+            label="Sightseeing and Activities"
+          />
+          <br />
+          <br />
+          <FormControl fullWidth>
+            <TextField
+              label="Anything else you wish to tell us"
+              value={additionalInfo}
+              onChange={(event) => setAdditionalInfo(event.target.value)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </FormControl>
+          <br />
+          <br />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleGenerateReport}
+          >
+            Generate Report
+          </Button>
+          <br /> <br />
+          <SosButton onClick={handleSosButtonClick} />
+          <br />
+        </form>
+      </Card>
+    );
+  };
+  
+  export default TouristForm;
+  
