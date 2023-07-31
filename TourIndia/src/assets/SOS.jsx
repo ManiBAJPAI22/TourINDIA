@@ -6,7 +6,7 @@ const SosButton = ({ onClick }) => {
 
   const handleButtonClick = () => {
     setIsClicked(true);
-    onClick(); // Call the onClick handler passed from the parent component
+    onClick();
   };
 
   return (
@@ -23,7 +23,7 @@ const SosButton = ({ onClick }) => {
           fontWeight: "bold",
           fontSize: "16px",
         }}
-        onClick={handleButtonClick} // Use the custom handler to handle the click
+        onClick={handleButtonClick}
       >
         S.O.S
       </Button>

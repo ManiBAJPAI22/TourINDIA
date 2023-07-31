@@ -106,7 +106,7 @@ const TouristForm = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data); // Show the response from the server (optional)
+        console.log(data); // Show the response from the server 
         setGeneratedReportVisible(true); // Show the generated report
       })
       .catch((error) => {
