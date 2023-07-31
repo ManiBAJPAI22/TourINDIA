@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+ //import { PDFDownloadLink } from "@react-pdf/renderer";
+// import ReportPDF from "./assets/PDFreport";
 import SosButton from "./assets/SOS";
 import countries from "./assets/countries";
 import typesOfVisit from "./assets/TypeOfVisit";
@@ -31,7 +33,7 @@ const TouristForm = () => {
   const [healthCareDemands, setHealthCareDemands] = useState("");
   const [showHealthCareDemands, setShowHealthCareDemands] = useState(false);
   const [additionalInfo, setAdditionalInfo] = useState("");
-
+  const [generatedReportVisible, setGeneratedReportVisible] = useState(false);
   const handleNationalityChange = (event) => {
     setNationality(event.target.value);
   };
@@ -96,21 +98,26 @@ const TouristForm = () => {
       healthCareDemands,
       additionalInfo,
     };
- // Convert the form data object to a JSON string
- const formDataString = JSON.stringify(formData, null, 2);
 
- // Create a Blob with the form data
- const blob = new Blob([formDataString], { type: "application/json" });
+    // Convert the form data object to a JSON string
+    const formDataString = JSON.stringify(formData, null, 2);
 
- // Create a URL for the Blob
- const url = URL.createObjectURL(blob);
+    // Create a Blob with the form data
+    const blob = new Blob([formDataString], { type: "application/json" });
 
- // Open a new tab window to download the file
- const newTab = window.open(url, "_blank");
+    // Create a URL for the Blob
+    const url = URL.createObjectURL(blob);
 
- // Release the URL object after the tab is opened
- setTimeout(() => URL.revokeObjectURL(url), 100);
-};
+    // Open a new tab window to download the file
+    const newTab = window.open(url, "_blank");
+
+    // Release the URL object after the tab is opened
+    setTimeout(() => URL.revokeObjectURL(url), 100);
+    setGeneratedReportVisible(true);
+  };
+  const handleHideGeneratedReport = () => {
+    setGeneratedReportVisible(false); // Hide the generated report
+  };
   const handleSosButtonClick = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -125,9 +132,6 @@ const TouristForm = () => {
       console.log("Geolocation is not available in this browser.");
     }
   };
-
- 
-   
 
   return (
     <Card variant="outlined" style={{ padding: "20px" }}>
@@ -267,19 +271,36 @@ const TouristForm = () => {
             }}
           />
         </FormControl>
-        <br />
-        <br />
+      </form>
+      <br />
+      <br />
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleGenerateReport}
+      >
+        Generate Report
+      </Button>
+      <br /> <br />
+      <SosButton onClick={handleSosButtonClick} />
+      <br />
+      {generatedReportVisible && (
+        <PDFDownloadLink
+          document={<ReportPDF formData={formData} />}
+          fileName="tourist_report.pdf"
+        >
+          {({ loading }) => (loading ? "Loading document..." : <Button>"Download now!"</Button>)}
+        </PDFDownloadLink>
+      )}
+      {generatedReportVisible && (
         <Button
           variant="contained"
-          color="primary"
-          onClick={handleGenerateReport}
+          color="secondary"
+          onClick={handleHideGeneratedReport}
         >
-          Generate Report
+          Close Report
         </Button>
-        <br /> <br />
-        <SosButton onClick={handleSosButtonClick} />
-        <br />
-      </form>
+      )}
     </Card>
   );
 };
