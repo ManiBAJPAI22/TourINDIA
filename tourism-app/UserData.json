@@ -18,5 +18,150 @@
     "sightseeing": false,
     "healthCareDemands": "",
     "additionalInfo": ""
+  },
+  {
+    "nationality": "Cambodia",
+    "typeOfVisit": "Family and Friends",
+    "selectedCities": [
+      "Chennai",
+      "Goa"
+    ],
+    "accommodation": "Vacation Rentals",
+    "budget": "",
+    "numAdults": "2",
+    "numChildren": "0",
+    "specialCare": {
+      "childCare": false,
+      "healthCare": false,
+      "entertainment": false
+    },
+    "sightseeing": false,
+    "healthCareDemands": "",
+    "additionalInfo": ""
+  },
+  {
+    "nationality": "",
+    "typeOfVisit": "",
+    "selectedCities": [],
+    "accommodation": "",
+    "budget": "",
+    "numAdults": "",
+    "numChildren": "",
+    "specialCare": {
+      "childCare": false,
+      "healthCare": false,
+      "entertainment": false
+    },
+    "sightseeing": false,
+    "healthCareDemands": "",
+    "additionalInfo": ""
+  },
+  {
+    "nationality": "",
+    "typeOfVisit": "",
+    "selectedCities": [],
+    "accommodation": "",
+    "budget": "",
+    "numAdults": "",
+    "numChildren": "",
+    "specialCare": {
+      "childCare": false,
+      "healthCare": false,
+      "entertainment": false
+    },
+    "sightseeing": false,
+    "healthCareDemands": "",
+    "additionalInfo": ""
+  },
+  {
+    "nationality": "",
+    "typeOfVisit": "",
+    "selectedCities": [],
+    "accommodation": "",
+    "budget": "",
+    "numAdults": "",
+    "numChildren": "",
+    "specialCare": {
+      "childCare": false,
+      "healthCare": false,
+      "entertainment": false
+    },
+    "sightseeing": false,
+    "healthCareDemands": "",
+    "additionalInfo": ""
+  },
+  {
+    "nationality": "Fiji",
+    "typeOfVisit": "Medical Treatment",
+    "selectedCities": [
+      "Chennai"
+    ],
+    "accommodation": "Guesthouses/B&Bs",
+    "budget": "",
+    "numAdults": "2",
+    "numChildren": "2",
+    "specialCare": {
+      "childCare": true,
+      "healthCare": true,
+      "entertainment": false
+    },
+    "sightseeing": false,
+    "healthCareDemands": "",
+    "additionalInfo": ""
+  },
+  {
+    "nationality": "Fiji",
+    "typeOfVisit": "Medical Treatment",
+    "selectedCities": [
+      "Chennai"
+    ],
+    "accommodation": "Guesthouses/B&Bs",
+    "budget": "",
+    "numAdults": "2",
+    "numChildren": "2",
+    "specialCare": {
+      "childCare": true,
+      "healthCare": true,
+      "entertainment": false
+    },
+    "sightseeing": false,
+    "healthCareDemands": "",
+    "additionalInfo": ""
+  },
+  {
+    "nationality": "Fiji",
+    "typeOfVisit": "Medical Treatment",
+    "selectedCities": [
+      "Chennai"
+    ],
+    "accommodation": "Guesthouses/B&Bs",
+    "budget": "",
+    "numAdults": "2",
+    "numChildren": "2",
+    "specialCare": {
+      "childCare": true,
+      "healthCare": true,
+      "entertainment": false
+    },
+    "sightseeing": false,
+    "healthCareDemands": "",
+    "additionalInfo": ""
+  },
+  {
+    "nationality": "",
+    "typeOfVisit": "",
+    "selectedCities": [],
+    "accommodation": "",
+    "budget": "",
+    "numAdults": "",
+    "numChildren": "",
+    "specialCare": {
+      "childCare": false,
+      "healthCare": false,
+      "entertainment": false
+    },
+    "sightseeing": false,
+    "healthCareDemands": "",
+    "additionalInfo": ""
   }
 ]

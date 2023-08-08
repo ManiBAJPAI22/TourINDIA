@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-//import { PDFDownloadLink } from "@react-pdf/renderer";
-// import ReportPDF from "./assets/PDFreport";
-import SosButton from "./assets/SOS";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import ReportPDF from "./assets/PDFreport";
 import countries from "./assets/countries";
 import typesOfVisit from "./assets/TypeOfVisit";
 import cityList from "./assets/cities";
 import accommodationList from "./assets/accommodation";
+import SosButton from "./assets/SOS";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import TextField from "@mui/material/TextField";
@@ -15,6 +15,11 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+
+
 
 const TouristForm = () => {
   const [nationality, setNationality] = useState("");
@@ -34,6 +39,8 @@ const TouristForm = () => {
   const [showHealthCareDemands, setShowHealthCareDemands] = useState(false);
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [generatedReportVisible, setGeneratedReportVisible] = useState(false);
+  const [formData, setFormData] = useState(null); 
+
   const handleNationalityChange = (event) => {
     setNationality(event.target.value);
   };
@@ -97,6 +104,8 @@ const TouristForm = () => {
       healthCareDemands,
       additionalInfo,
     };
+
+    setFormData(formData);
     fetch('http://localhost:3000/api/storeReport', {
       method: 'POST',
       headers: {
@@ -112,27 +121,12 @@ const TouristForm = () => {
       .catch((error) => {
         console.error('Error storing report data:', error);
       });
-
-    // Convert the form data object to a JSON string
-    const formDataString = JSON.stringify(formData, null, 2);
-
-    // Create a Blob with the form data
-    const blob = new Blob([formDataString], { type: "application/json" });
-
-    // Create a URL for the Blob
-    const url = URL.createObjectURL(blob);
-
-    // Open a new tab window to download the file
-    const newTab = window.open(url, "_blank");
-
-    // Release the URL object after the tab is opened
-    setTimeout(() => URL.revokeObjectURL(url), 100);
-    setGeneratedReportVisible(true);
   };
 
   const handleHideGeneratedReport = () => {
     setGeneratedReportVisible(false);
   };
+
   const handleSosButtonClick = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -149,7 +143,10 @@ const TouristForm = () => {
   };
 
   return (
-    <Card variant="outlined" style={{ padding: "20px" }}>
+    <Card variant="outlined" sx={{ padding: "20px", maxWidth: "500px", mx: "auto" }}>
+      <Typography variant="h5" align="center" sx={{ mb: 2 }}>
+        Tourist Information Form
+      </Typography>
       <form>
         <FormControl fullWidth>
           <InputLabel>Nationality</InputLabel>
@@ -232,93 +229,91 @@ const TouristForm = () => {
           label="Child Care"
         />
         <FormControlLabel
-          control={
-            <Checkbox
-              checked={specialCare.healthCare}
-              onChange={handleHealthCareChange}
-              name="healthCare"
-            />
-          }
-          label="Health Care"
-        />
-        {showHealthCareDemands && (
-          <FormControl fullWidth>
-            <TextField
-              label="Specific Health Care Demands"
-              value={healthCareDemands}
-              onChange={handleHealthCareDemandsChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </FormControl>
-        )}
-        <br />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={specialCare.entertainment}
-              onChange={handleSpecialCareChange}
-              name="entertainment"
-            />
-          }
-          label="Entertainment and Night life"
-        />
-        <br />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={sightseeing}
-              onChange={handleSightseeingChange}
-            />
-          }
-          label="Sightseeing and Activities"
-        />
-        <br />
-        <br />
-        <FormControl fullWidth>
-          <TextField
-            label="Anything else you wish to tell us"
-            value={additionalInfo}
-            onChange={(event) => setAdditionalInfo(event.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </FormControl>
-      </form>
+                    control={
+                      <Checkbox
+                        checked={specialCare.healthCare}
+                        onChange={handleHealthCareChange}
+                        name="healthCare"
+                      />
+                    }
+                    label="Health Care"
+                  />
+                  {showHealthCareDemands && (
+                    <FormControl fullWidth>
+                      <TextField
+                        label="Specific Health Care Demands"
+                        value={healthCareDemands}
+                        onChange={handleHealthCareDemandsChange}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                    </FormControl>
+                  )}
+                  <br />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={specialCare.entertainment}
+                        onChange={handleSpecialCareChange}
+                        name="entertainment"
+                      />
+                    }
+                    label="Entertainment and Night life"
+                  />
+                  <br />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={sightseeing}
+                        onChange={handleSightseeingChange}
+                      />
+                    }
+                    label="Sightseeing and Activities"
+                  />
+                  <br />
+                  <br />
+                  <FormControl fullWidth>
+                    <TextField
+                      label="Anything else you wish to tell us"
+                      value={additionalInfo}
+                      onChange={(event) => setAdditionalInfo(event.target.value)}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </FormControl>
+                </form>
+                <br />
+                <br />
+                <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+        <Button variant="contained" color="primary" onClick={handleGenerateReport}>
+          Generate Report
+        </Button>
+      </Box>
       <br />
-      <br />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleGenerateReport}
-      >
-        Generate Report
-      </Button>
-      <br /> <br />
       <SosButton onClick={handleSosButtonClick} />
       <br />
-      {/* {generatedReportVisible && (
-        <PDFDownloadLink
-          document={<ReportPDF formData={formData} />}
-          fileName="tourist_report.pdf"
-        >
-          {({ loading }) =>
-            loading ? "Loading document..." : <Button>"Download now!"</Button>
-          }
-        </PDFDownloadLink>
+      {generatedReportVisible && formData && (
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <PDFDownloadLink
+            document={<ReportPDF formData={formData} />}
+            fileName="tourist_report.pdf"
+          >
+            {({ loading }) =>
+              loading ? "Loading document..." : <Button>Download Report</Button>
+            }
+          </PDFDownloadLink>
+          <br />
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleHideGeneratedReport}
+          >
+            Close Report
+          </Button>
+        </Box>
       )}
-      {generatedReportVisible && (
-        <Button
-
-          variant="contained"
-          color="secondary"
-          onClick={handleHideGeneratedReport}
-        >
-          Close Report
-        </Button>
-      )} */}
     </Card>
   );
 };

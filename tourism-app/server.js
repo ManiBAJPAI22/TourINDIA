@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
+const PDFDocument = require('pdfkit'); // Add PDFKit library
 
 const app = express();
 const PORT = 3000;
@@ -55,6 +56,26 @@ app.route('/api/storeReport')
       return res.status(200).json({ message: 'Report data stored successfully' });
     });
   });
+
+// Endpoint to generate a PDF report
+app.post('/api/generatePDFReport', (req, res) => {
+  const reportData = req.body;
+  const pdfDoc = new PDFDocument();
+
+  // Set the response headers for PDF download
+  res.setHeader('Content-Disposition', 'attachment; filename="tourist_report.pdf"');
+  res.setHeader('Content-Type', 'application/pdf');
+
+  // Pipe the PDF document to the response
+  pdfDoc.pipe(res);
+
+  // Write the report data to the PDF document
+  pdfDoc.fontSize(16).text('Tourist Report', { align: 'center' });
+  pdfDoc.fontSize(12).text(JSON.stringify(reportData, null, 2));
+
+  // End and finalize the PDF document
+  pdfDoc.end();
+});
 
 app.listen(PORT, () => {
   console.log(`Backend server is running at http://localhost:${PORT}`);
