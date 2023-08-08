@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 import ReportPDF from "./assets/PDFreport";
 import countries from "./assets/countries";
 import typesOfVisit from "./assets/TypeOfVisit";
@@ -17,11 +18,27 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 
+const MapComponent = ({ google, mapCenter, mapMarkers }) => {
+  return (
+    <Map
+      google={google}
+      zoom={14}
+      style={{ width: "100%", height: "400px" }}
+      initialCenter={mapCenter}
+      center={mapCenter}
+    >
+      {mapMarkers.map((marker, index) => (
+        <Marker key={index} title={marker.title} position={marker.position} />
+      ))}
+    </Map>
+  );
+};
 
-
-const TouristForm = () => {
+const TouristForm = ({ google }) => {
+  const [mapCenter, setMapCenter] = useState({ lat: 40.7128, lng: -74.006 }); // Default center
+  const [mapMarkers, setMapMarkers] = useState([]);
+  const [showMap, setShowMap] = useState(false);
   const [nationality, setNationality] = useState("");
   const [typeOfVisit, setTypeOfVisit] = useState("");
   const [selectedCities, setSelectedCities] = useState([]);
@@ -39,7 +56,7 @@ const TouristForm = () => {
   const [showHealthCareDemands, setShowHealthCareDemands] = useState(false);
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [generatedReportVisible, setGeneratedReportVisible] = useState(false);
-  const [formData, setFormData] = useState(null); 
+  const [formData, setFormData] = useState(null);
 
   const handleNationalityChange = (event) => {
     setNationality(event.target.value);
@@ -105,21 +122,51 @@ const TouristForm = () => {
       additionalInfo,
     };
 
+    useEffect(() => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const { latitude, longitude } = position.coords;
+
+          const service = new window.google.maps.places.PlacesService(
+            document.createElement("div")
+          );
+          const request = {
+            location: { lat: latitude, lng: longitude },
+            radius: 5000, // Adjust radius as needed
+            types: ["police", "hospital"],
+          };
+
+          service.nearbySearch(request, (results, status) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+              const markers = results.map((result) => ({
+                title: result.name,
+                position: result.geometry.location,
+              }));
+
+              setMapMarkers(markers);
+            }
+          });
+        });
+      } else {
+        console.log("Geolocation is not available in this browser.");
+      }
+    }, []);
+
     setFormData(formData);
-    fetch('http://localhost:3000/api/storeReport', {
-      method: 'POST',
+    fetch("http://localhost:3000/api/storeReport", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data); // Show the response from the server 
+        console.log(data); // Show the response from the server
         setGeneratedReportVisible(true); // Show the generated report
       })
       .catch((error) => {
-        console.error('Error storing report data:', error);
+        console.error("Error storing report data:", error);
       });
   };
 
@@ -131,19 +178,39 @@ const TouristForm = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
-        // Perform nearby search for police stations and hospitals using Google Maps Places API
-        // Display markers on the map for the search results
 
-        console.log("Current Latitude:", latitude);
-        console.log("Current Longitude:", longitude);
+        const service = new google.maps.places.PlacesService(
+          document.createElement("div")
+        );
+        const request = {
+          location: { lat: latitude, lng: longitude },
+          radius: 5000, // Adjust radius as needed
+          types: ["police", "hospital"],
+        };
+
+        service.nearbySearch(request, (results, status) => {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            const markers = results.map((result) => ({
+              title: result.name,
+              position: result.geometry.location,
+            }));
+
+            setMapMarkers(markers);
+            setMapCenter({ lat: latitude, lng: longitude });
+          }
+        });
       });
     } else {
       console.log("Geolocation is not available in this browser.");
     }
+    setShowMap(true);
   };
 
   return (
-    <Card variant="outlined" sx={{ padding: "20px", maxWidth: "500px", mx: "auto" }}>
+    <Card
+      variant="outlined"
+      sx={{ padding: "20px", maxWidth: "500px", mx: "auto" }}
+    >
       <Typography variant="h5" align="center" sx={{ mb: 2 }}>
         Tourist Information Form
       </Typography>
@@ -229,73 +296,101 @@ const TouristForm = () => {
           label="Child Care"
         />
         <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={specialCare.healthCare}
-                        onChange={handleHealthCareChange}
-                        name="healthCare"
-                      />
-                    }
-                    label="Health Care"
-                  />
-                  {showHealthCareDemands && (
-                    <FormControl fullWidth>
-                      <TextField
-                        label="Specific Health Care Demands"
-                        value={healthCareDemands}
-                        onChange={handleHealthCareDemandsChange}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                    </FormControl>
-                  )}
-                  <br />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={specialCare.entertainment}
-                        onChange={handleSpecialCareChange}
-                        name="entertainment"
-                      />
-                    }
-                    label="Entertainment and Night life"
-                  />
-                  <br />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={sightseeing}
-                        onChange={handleSightseeingChange}
-                      />
-                    }
-                    label="Sightseeing and Activities"
-                  />
-                  <br />
-                  <br />
-                  <FormControl fullWidth>
-                    <TextField
-                      label="Anything else you wish to tell us"
-                      value={additionalInfo}
-                      onChange={(event) => setAdditionalInfo(event.target.value)}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                    />
-                  </FormControl>
-                </form>
-                <br />
-                <br />
-                <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-        <Button variant="contained" color="primary" onClick={handleGenerateReport}>
+          control={
+            <Checkbox
+              checked={specialCare.healthCare}
+              onChange={handleHealthCareChange}
+              name="healthCare"
+            />
+          }
+          label="Health Care"
+        />
+        {showHealthCareDemands && (
+          <FormControl fullWidth>
+            <TextField
+              label="Specific Health Care Demands"
+              value={healthCareDemands}
+              onChange={handleHealthCareDemandsChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </FormControl>
+        )}
+        <br />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={specialCare.entertainment}
+              onChange={handleSpecialCareChange}
+              name="entertainment"
+            />
+          }
+          label="Entertainment and Night life"
+        />
+        <br />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={sightseeing}
+              onChange={handleSightseeingChange}
+            />
+          }
+          label="Sightseeing and Activities"
+        />
+        <br />
+        <br />
+        <FormControl fullWidth>
+          <TextField
+            label="Anything else you wish to tell us"
+            value={additionalInfo}
+            onChange={(event) => setAdditionalInfo(event.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </FormControl>
+      </form>
+      <br />
+      <br />
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleGenerateReport}
+        >
           Generate Report
         </Button>
       </Box>
       <br />
       <SosButton onClick={handleSosButtonClick} />
+      {showMap && (
+        <MapComponent
+          google={google}
+          mapCenter={mapCenter}
+          mapMarkers={mapMarkers}
+        />
+      )}
+      <Map
+        google={google}
+        zoom={14}
+        style={{ width: "100%", height: "400px" }}
+        initialCenter={mapCenter}
+        center={mapCenter}
+      >
+        {mapMarkers.map((marker, index) => (
+          <Marker key={index} title={marker.title} position={marker.position} />
+        ))}
+      </Map>
       <br />
       {generatedReportVisible && formData && (
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <PDFDownloadLink
             document={<ReportPDF formData={formData} />}
             fileName="tourist_report.pdf"
@@ -318,4 +413,6 @@ const TouristForm = () => {
   );
 };
 
-export default TouristForm;
+export default GoogleApiWrapper({
+  apiKey: "AIzaSyA7t7Diwvp6KdhZ9D2qzOf-AFfOPWzqlVc",
+})(TouristForm);
