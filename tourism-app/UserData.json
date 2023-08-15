@@ -163,5 +163,22 @@
     "sightseeing": false,
     "healthCareDemands": "",
     "additionalInfo": ""
+  },
+  {
+    "nationality": "",
+    "typeOfVisit": "",
+    "selectedCities": [],
+    "accommodation": "",
+    "budget": "",
+    "numAdults": "",
+    "numChildren": "",
+    "specialCare": {
+      "childCare": false,
+      "healthCare": false,
+      "entertainment": false
+    },
+    "sightseeing": false,
+    "healthCareDemands": "",
+    "additionalInfo": ""
   }
 ]

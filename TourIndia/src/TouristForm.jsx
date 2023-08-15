@@ -414,5 +414,5 @@ const TouristForm = ({ google }) => {
 };
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyA7t7Diwvp6KdhZ9D2qzOf-AFfOPWzqlVc",
+  apiKey: "AIzaSyDFIzTB6xyhhBZwSLo7j4Qgn8mYBRJyU1U",
 })(TouristForm);
